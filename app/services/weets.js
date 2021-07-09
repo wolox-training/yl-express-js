@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const logger = require('../logger');
-const { badGateway } = require('../errors');
+const { badGatewayError } = require('../errors');
 const {
   common: {
     services: { weetsApiUrl }
@@ -17,6 +17,6 @@ exports.getWeet = async () => {
     return response.data;
   } catch (error) {
     logger.error('Error getting random weet external api');
-    throw badGateway('Error getting random weet external api');
+    throw badGatewayError('Error getting random weet external api');
   }
 };
