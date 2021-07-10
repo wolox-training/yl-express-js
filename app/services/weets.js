@@ -1,7 +1,5 @@
-const axios = require('axios');
-
 const logger = require('../logger');
-const { badGatewayError } = require('../errors');
+const { getWeetRandom } = require('../helpers/axios');
 const {
   common: {
     services: { weetsApiUrl }
@@ -10,13 +8,10 @@ const {
 
 exports.getWeet = async () => {
   try {
-    const response = await axios({
-      method: 'GET',
-      url: `${weetsApiUrl}?format=json`
-    });
-    return response.data;
+    const url = `${weetsApiUrl}?format=json`;
+    return await getWeetRandom('get', url);
   } catch (error) {
-    logger.error('Error getting random weet external api');
-    throw badGatewayError('Error getting random weet external api');
+    logger.error(`Error getting random weet => ${error.message}`);
+    return new Error(`Error getting random weet => ${error.message}`);
   }
 };
