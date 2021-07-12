@@ -3,10 +3,10 @@ const axios = require('axios');
 const logger = require('../logger');
 const { badGatewayError } = require('../errors');
 
-exports.getWeetRandom = (method, url, data = '') =>
+exports.request = (method, url, data = '') =>
   axios({ method, url, data })
-    .then(response => response.data.joke)
+    .then(response => response.data)
     .catch(error => {
-      logger.error(`getWeetRandom Error => ${error.message}`);
-      badGatewayError(`getWeetRandom Error => ${error.message}`);
+      logger.error(`request Error => ${error.message}`);
+      badGatewayError(`request Error => ${error.message}`);
     });
