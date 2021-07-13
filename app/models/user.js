@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         autoIncrement: true
       },
-      first_name: {
+      firstName: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      last_name: {
+      lastName: {
         type: DataTypes.STRING,
         allowNull: false
       },
