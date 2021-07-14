@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs');
 
 const {
-  constantsValues: { PASSWORD_SALT }
-} = require('../constants');
+  common: {
+    hash: { passwordSalt }
+  }
+} = require('../../config');
 
-exports.createHash = (value, salt = PASSWORD_SALT) => bcrypt.hash(value, salt);
+exports.createHash = (value, salt = passwordSalt) => bcrypt.hash(value, salt);

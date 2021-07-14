@@ -1,27 +1,34 @@
 const logger = require('../logger');
-
-const { errors } = require('../errors');
+const { conflictError, databaseError } = require('../errors');
+const { createHash } = require('../helpers/bcrypt');
 const { User } = require('../models');
+const {
+  validationMessages: { EMAIL_ALREADY_ERROR }
+} = require('../constants');
 
-exports.createUser = ({ firstName, lastName, email, password }) =>
-  User.findOne({ where: { email } })
-    .catch(err => {
-      logger.error(`Database Find Error: ${JSON.stringify(err)}`);
-      throw errors.databaseError();
-    })
-    .then(user => {
-      if (user) {
-        logger.error(`email already: ${JSON.stringify(email)}`);
-        throw errors.emailExistsError();
-      }
-      logger.info(`user with email: "${email}", successfully created`);
-      User.create({
-        firstName,
-        lastName,
-        email,
-        password
-      }).catch(err => {
-        logger.error(`Database Create Error: ${JSON.stringify(err)}`);
-        throw errors.databaseError();
-      });
+exports.getUserByEmail = async email => {
+  try {
+    const result = await User.findOne({ where: { email } });
+    return result;
+  } catch (error) {
+    logger.error(`Database error: ${error}`);
+    throw databaseError();
+  }
+};
+
+exports.createUser = async ({ firstName, lastName, email, password }) => {
+  try {
+    const hashCode = await createHash(password);
+    const result = await User.create({
+      firstName,
+      lastName,
+      email,
+      password: hashCode
     });
+    logger.info(`user with email: "${email}", successfully created`);
+    return result;
+  } catch (error) {
+    logger.error(`Error signUp user: ${error}`);
+    throw conflictError(EMAIL_ALREADY_ERROR);
+  }
+};
