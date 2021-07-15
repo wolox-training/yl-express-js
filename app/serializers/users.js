@@ -1,5 +1,5 @@
 exports.userSerializer = user => ({
-  firstName: user.firstName,
-  lastName: user.lastName,
+  first_name: user.firstName,
+  last_name: user.lastName,
   email: user.email
 });

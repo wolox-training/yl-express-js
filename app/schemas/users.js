@@ -1,5 +1,8 @@
+const { check } = require('express-validator');
+
 const {
   validationMessages: {
+    INVALID_EMAIL_FORMAT,
     INVALIDATE_EMAIL_MATCH,
     INVALIDATE_PASSWORD_MATCH,
     IS_STRING_ERROR,
@@ -10,52 +13,41 @@ const {
   validationRegex: { PASSWORD, WOLOX_EMAIL }
 } = require('../constants');
 
-exports.createUserValidator = {
-  firstName: {
-    in: ['body'],
-    exists: { errorMessage: `firstName: ${REQUIRED_ERROR}` },
-    isString: { errorMessage: `firstName: ${IS_STRING_ERROR}` },
-    notEmpty: {
-      value: true,
-      errorMessage: `firstName: ${NOT_EMPTY_ERROR}`
-    },
-    trim: true
-  },
-  lastName: {
-    in: ['body'],
-    exists: { errorMessage: `lastName: ${REQUIRED_ERROR}` },
-    isString: { errorMessage: `lastName: ${IS_STRING_ERROR}` },
-    notEmpty: {
-      value: true,
-      errorMessage: `lastName: ${NOT_EMPTY_ERROR}`
-    },
-    trim: true
-  },
-  email: {
-    in: ['body'],
-    exists: { errorMessage: `email: ${REQUIRED_ERROR}` },
-    isString: { errorMessage: `email: ${IS_STRING_ERROR}` },
-    notEmpty: {
-      value: true,
-      errorMessage: `email: ${NOT_EMPTY_ERROR}`
-    },
-    matches: {
-      options: WOLOX_EMAIL,
-      errorMessage: `email: ${INVALIDATE_EMAIL_MATCH}`
-    }
-  },
-  password: {
-    in: ['body'],
-    exists: { errorMessage: `password: ${REQUIRED_ERROR}` },
-    isString: { errorMessage: `password: ${IS_STRING_ERROR}` },
-    notEmpty: { errorMessage: `password: ${NOT_EMPTY_ERROR}` },
-    matches: {
-      options: PASSWORD,
-      errorMessage: `password: ${INVALIDATE_PASSWORD_MATCH}`
-    },
-    isLength: {
-      options: { min: 8 },
-      errorMessage: `password: ${PASSWORD_MIN_LENGTH_ERROR}`
-    }
-  }
-};
+exports.createUserSchema = [
+  check('firstName')
+    .exists()
+    .withMessage(`firstName: ${REQUIRED_ERROR}`)
+    .notEmpty()
+    .withMessage(`firstName: ${NOT_EMPTY_ERROR}`)
+    .isString()
+    .withMessage(`firstName: ${IS_STRING_ERROR}`),
+  check('lastName')
+    .exists()
+    .withMessage(`lastName: ${REQUIRED_ERROR}`)
+    .notEmpty()
+    .withMessage(`lastName: ${NOT_EMPTY_ERROR}`)
+    .isString()
+    .withMessage(`lastName: ${IS_STRING_ERROR}`),
+  check('email')
+    .exists()
+    .withMessage(`email: ${REQUIRED_ERROR}`)
+    .notEmpty()
+    .withMessage(`email: ${NOT_EMPTY_ERROR}`)
+    .isString()
+    .withMessage(`email: ${IS_STRING_ERROR}`)
+    .isEmail()
+    .withMessage(`email: ${INVALID_EMAIL_FORMAT}`)
+    .matches(WOLOX_EMAIL)
+    .withMessage(`email: ${INVALIDATE_EMAIL_MATCH}`),
+  check('password')
+    .exists()
+    .withMessage(`password: ${REQUIRED_ERROR}`)
+    .notEmpty()
+    .withMessage(`password: ${NOT_EMPTY_ERROR}`)
+    .isString()
+    .withMessage(`password: ${IS_STRING_ERROR}`)
+    .isLength({ min: 8 })
+    .withMessage(`password: ${PASSWORD_MIN_LENGTH_ERROR}`)
+    .matches(PASSWORD)
+    .withMessage(`password: ${INVALIDATE_PASSWORD_MATCH}`)
+];

@@ -48,8 +48,8 @@ const config = {
     services: {
       weetsApiUrl: process.env.WEETS_API_URL
     },
-    hash: {
-      passwordSalt: parseInt(process.env.PASSWORD_SALT) || 10
+    saltRounds: {
+      passwordSaltRounds: parseInt(process.env.PASSWORD_SALT_ROUNDS) || 10
     },
     regex: {
       woloxEmail: process.env.WOLOX_EMAIL_REGEX

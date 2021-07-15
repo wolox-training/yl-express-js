@@ -13,11 +13,12 @@ exports.statusMessages = {
 
 exports.validationMessages = {
   EMAIL_ALREADY_ERROR: 'email already exists',
+  INVALID_EMAIL_FORMAT: 'invalid email format',
   INVALIDATE_EMAIL_MATCH: 'is not a valid wolox email',
-  INVALIDATE_PASSWORD_MATCH: 'is not a valid password, must be alphanumeric',
+  INVALIDATE_PASSWORD_MATCH: 'is not a valid password. must be alphanumeric',
   IS_STRING_ERROR: 'must be a string',
   NOT_EMPTY_ERROR: 'must be a non-empty',
-  PASSWORD_MIN_LENGTH_ERROR: 'must be a minimum of 8 characters',
+  PASSWORD_MIN_LENGTH_ERROR: 'must be a minimum length of 8 characters',
   REQUIRED_ERROR: 'is required'
 };
 

@@ -1,34 +1,25 @@
+const errors = require('../errors');
 const logger = require('../logger');
-const { conflictError, databaseError } = require('../errors');
 const { createHash } = require('../helpers/bcrypt');
 const { User } = require('../models');
 const {
+  statusMessages: { CREATED, NOT_CREATED },
   validationMessages: { EMAIL_ALREADY_ERROR }
 } = require('../constants');
 
-exports.getUserByEmail = async email => {
-  try {
-    const result = await User.findOne({ where: { email } });
-    return result;
-  } catch (error) {
-    logger.error(`Database error: ${error}`);
-    throw databaseError();
-  }
-};
-
 exports.createUser = async ({ firstName, lastName, email, password }) => {
   try {
-    const hashCode = await createHash(password);
+    const passwordHashed = await createHash(password);
     const result = await User.create({
       firstName,
       lastName,
       email,
-      password: hashCode
+      password: passwordHashed
     });
-    logger.info(`user with email: "${email}", successfully created`);
+    logger.info(`user with name: "${firstName}", was ${CREATED}`);
     return result;
   } catch (error) {
-    logger.error(`Error signUp user: ${error}`);
-    throw conflictError(EMAIL_ALREADY_ERROR);
+    logger.error(`user ${NOT_CREATED} -- ${EMAIL_ALREADY_ERROR}`);
+    throw errors.conflictError(EMAIL_ALREADY_ERROR);
   }
 };
