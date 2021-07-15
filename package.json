@@ -21,7 +21,7 @@
     "prestart-dev": "npm run lint",
     "migrations": "sequelize db:migrate",
     "migrations-rollback": "sequelize db:migrate:undo",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "seed": "sequelize db:seed:all",
     "create-seed": "sequelize seed:generate --name"
   },
