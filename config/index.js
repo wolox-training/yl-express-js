@@ -47,6 +47,12 @@ const config = {
     },
     services: {
       weetsApiUrl: process.env.WEETS_API_URL
+    },
+    saltRounds: {
+      passwordSaltRounds: parseInt(process.env.PASSWORD_SALT_ROUNDS) || 10
+    },
+    regex: {
+      woloxEmail: process.env.WOLOX_EMAIL_REGEX
     }
   }
 };
