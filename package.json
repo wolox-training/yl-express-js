@@ -20,8 +20,9 @@
     "start-dev": "nodemon --inspect server.js",
     "prestart-dev": "npm run lint",
     "migrations": "sequelize db:migrate",
-    "migrations-test": "NODE_ENV=testing sequelize db:migrate",
     "migrations-rollback": "sequelize db:migrate:undo",
+    "migrations-test": "NODE_ENV=testing sequelize db:migrate",
+    "migrations-test-rollback": "NODE_ENV=testing sequelize db:migrate:undo",
     "start": "nodemon server.js",
     "seed": "sequelize db:seed:all",
     "create-seed": "sequelize seed:generate --name"
@@ -93,7 +94,6 @@
     "eslint-config-wolox-node": "^3.0.0",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-prettier": "^3.0.1",
-    "faker": "^5.5.3",
     "husky": "^4.2.3",
     "istanbul": "^0.4.3",
     "jest": "^27.0.6",
