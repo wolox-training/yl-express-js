@@ -1,36 +1,13 @@
+const {
+  statusMessages: { CREATED },
+  validationMessages: { EMAIL_ALREADY_ERROR }
+} = require('../../app/constants/');
+
 module.exports = {
   '/users': {
-    get: {
-      tags: ['CRUD operations'],
-      description: 'Get users',
-      operationId: 'getUsers',
-      parameters: [
-        {
-          name: 'page',
-          in: 'query',
-          schema: {
-            type: 'integer',
-            default: 1
-          },
-          required: false
-        }
-      ],
-      responses: {
-        200: {
-          description: 'Users were obtained',
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/Users'
-              }
-            }
-          }
-        }
-      }
-    },
     post: {
-      tags: ['CRUD operations'],
-      description: 'Create user',
+      tags: ['User'],
+      description: 'Create a new user',
       operationId: 'createUser',
       parameters: [],
       requestBody: {
@@ -44,19 +21,53 @@ module.exports = {
         required: true
       },
       responses: {
-        200: {
-          description: 'New user was created'
-        },
-        400: {
-          description: 'Invalid parameters',
+        201: {
+          description: 'New user was created',
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/User'
               },
               example: {
-                message: 'User´s email already exists',
-                internal_code: 'invalid_parameters'
+                user: {
+                  first_name: 'john',
+                  last_name: 'doe',
+                  email: 'john.doe@wolox.co'
+                },
+                message: CREATED
+              }
+            }
+          }
+        },
+        409: {
+          description: 'Conflict error by email already exists',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/User'
+              },
+              example: {
+                message: EMAIL_ALREADY_ERROR,
+                internal_code: 'conflict_error'
+              }
+            }
+          }
+        },
+        422: {
+          description: 'Error unprocessable entity',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/User'
+              },
+              example: {
+                message: {
+                  value: 'value',
+                  msg: 'message',
+                  param: 'field',
+                  location: 'body'
+                },
+                internal_code: 'schema_error'
               }
             }
           }
