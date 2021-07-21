@@ -11,7 +11,7 @@ const {
     REQUIRED_ERROR
   },
   validationRegex: { PASSWORD, WOLOX_EMAIL }
-} = require('../constants');
+} = require('../../constants');
 
 exports.createUserSchema = [
   check('firstName')
