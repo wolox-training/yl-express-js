@@ -1,6 +1,7 @@
 const { check } = require('express-validator');
 
 const {
+  authMessages: { AUTH_ERROR },
   validationMessages: {
     INVALID_EMAIL_FORMAT,
     INVALIDATE_EMAIL_MATCH,
@@ -50,4 +51,29 @@ exports.createUserSchema = [
     .withMessage(`password: ${PASSWORD_MIN_LENGTH_ERROR}`)
     .matches(PASSWORD)
     .withMessage(`password: ${INVALIDATE_PASSWORD_MATCH}`)
+];
+
+exports.signInSchema = [
+  check('email')
+    .exists()
+    .withMessage(`email: ${REQUIRED_ERROR}`)
+    .notEmpty()
+    .withMessage(`email: ${NOT_EMPTY_ERROR}`)
+    .isString()
+    .withMessage(`email: ${AUTH_ERROR}`)
+    .isEmail()
+    .withMessage(`email: ${AUTH_ERROR}`)
+    .matches(WOLOX_EMAIL)
+    .withMessage(`email: ${AUTH_ERROR}`),
+  check('password')
+    .exists()
+    .withMessage(`password: ${REQUIRED_ERROR}`)
+    .notEmpty()
+    .withMessage(`password: ${NOT_EMPTY_ERROR}`)
+    .isString()
+    .withMessage(`password: ${AUTH_ERROR}`)
+    .isLength({ min: 8 })
+    .withMessage(`password: ${AUTH_ERROR}`)
+    .matches(PASSWORD)
+    .withMessage(`password: ${AUTH_ERROR}`)
 ];

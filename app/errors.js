@@ -3,6 +3,9 @@ const internalError = (message, internalCode) => ({
   internalCode
 });
 
+exports.AUTH_ERROR = 'auth_error';
+exports.authError = message => internalError(message, exports.AUTH_ERROR);
+
 exports.BAD_GATEWAY_ERROR = 'bad_gateway_error';
 exports.badGatewayError = message => internalError(message, exports.BAD_GATEWAY_ERROR);
 

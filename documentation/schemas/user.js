@@ -21,6 +21,17 @@ module.exports = {
     minLength: 8,
     example: 'SecurePassword1234'
   },
+  SignIn: {
+    type: 'object',
+    properties: {
+      email: {
+        $ref: '#/components/schemas/userEmail'
+      },
+      password: {
+        $ref: '#/components/schemas/userPassword'
+      }
+    }
+  },
   User: {
     type: 'object',
     properties: {

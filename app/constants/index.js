@@ -6,6 +6,11 @@ const {
 
 const woloxEmailRegex = `^[a-zA-Z0-9_.+-]+@${woloxEmail}`;
 
+exports.authMessages = {
+  AUTH_ERROR: 'user no authenticated',
+  LOGGED: 'authenticated successfully'
+};
+
 exports.statusMessages = {
   CREATED: 'successfully created',
   NOT_CREATED: 'cannot be created'
