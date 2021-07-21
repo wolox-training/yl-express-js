@@ -51,7 +51,7 @@ describe(`SignUp endpoint POST ${USERS_PATH}`, () => {
             .set(DEFAULT_HEADER)
             .send(userTestInfo)
         )
-        .then(res => expect(res.statusCode).toBe(CONFLICT_CODE)));
+        .catch(res => expect(res.statusCode).toBe(CONFLICT_CODE)));
     test('conflict error json reponse (when email already)', () =>
       userFactory
         .create()
@@ -61,7 +61,7 @@ describe(`SignUp endpoint POST ${USERS_PATH}`, () => {
             .set(DEFAULT_HEADER)
             .send(userTestInfo)
         )
-        .then(res => expect(res.body).toStrictEqual(conflictErrorResponse)));
+        .catch(res => expect(res.body).toStrictEqual(conflictErrorResponse)));
     test.each(randomMissingParams)('failed with an or more missing parameter: %p', randomTestData =>
       userFactory
         .create()
@@ -71,7 +71,7 @@ describe(`SignUp endpoint POST ${USERS_PATH}`, () => {
             .set(DEFAULT_HEADER)
             .send(randomTestData)
         )
-        .then(res => expect(res.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
+        .catch(res => expect(res.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
     );
     test.each(wrongPasswords)('failed cases with an invalid passwords: %p', randomTestData =>
       userFactory
@@ -82,7 +82,7 @@ describe(`SignUp endpoint POST ${USERS_PATH}`, () => {
             .set(DEFAULT_HEADER)
             .send(randomTestData)
         )
-        .then(res => expect(res.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
+        .catch(res => expect(res.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
     );
     test.each(wrongWoloxEmail)('failed cases with an invalid wolox email: %p', randomTestData =>
       userFactory
@@ -93,7 +93,7 @@ describe(`SignUp endpoint POST ${USERS_PATH}`, () => {
             .set(DEFAULT_HEADER)
             .send(randomTestData)
         )
-        .then(res => expect(res.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
+        .catch(res => expect(res.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
     );
   });
 });
