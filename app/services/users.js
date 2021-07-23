@@ -27,15 +27,15 @@ exports.createUser = async ({ firstName, lastName, email, password }) => {
 };
 
 exports.signIn = async (email, password) => {
-  const user = await User.findOne({ where: { email } });
-  if (!user) throw errors.notFoundError(`User with email ${email} not found`);
+  const findUserEmail = await User.findOne({ where: { email } });
+  if (!findUserEmail) throw errors.notFoundError(`User with email ${email} not found`);
 
-  const { password: hashedPassword } = user;
+  const { password: hashedPassword } = findUserEmail;
   const isValidPassword = await comparePassword(password, hashedPassword);
   if (!isValidPassword) throw errors.authError(AUTH_ERROR);
 
-  const token = generateToken({ email });
   logger.info(`User "${email}" is ${LOGGED}`);
+  const token = generateToken({ email });
 
-  return { token };
+  return token;
 };

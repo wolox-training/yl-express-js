@@ -1,3 +1,6 @@
+const errors = require('../../app/errors');
+const { authMessages, statusMessages, validationMessages } = require('../../app/constants/');
+
 // Mocking data
 const userTestInfo1 = {
   id: 1,
@@ -11,14 +14,18 @@ const userTestInfo2 = {
   lastName: 'eich',
   password: 'abc12345'
 };
+const userTestLogin = {
+  email: 'test@wolox.co',
+  password: 'abc12345'
+};
 
 // Correct data
 exports.user = {
   id: 1,
   firstName: 'brendan',
   lastName: 'eich',
-  email: 'test@wolox.co',
-  password: 'abc12345'
+  email: userTestLogin.email,
+  password: userTestLogin.password
 };
 exports.correctWoloxEmail = [
   { ...userTestInfo2, email: 'test@wolox.ar' },
@@ -28,20 +35,36 @@ exports.correctWoloxEmail = [
   { ...userTestInfo2, email: 'test@wolox.com.ar' },
   { ...userTestInfo2, email: 'test@wolox.com.mx' }
 ];
+
+// correct messages data
+exports.userAuthResponse = {
+  message: authMessages.LOGGED
+};
 exports.userCreatedResponse = {
   user: {
     first_name: 'brendan',
     last_name: 'eich',
     email: 'test@wolox.co'
   },
-  message: 'successfully created'
+  message: statusMessages.CREATED
 };
 
 // Wrong data
-exports.conflictErrorResponse = {
-  internal_code: 'conflict_error',
-  message: 'email already exists'
+exports.externalEmail = {
+  email: 'test@wolox.com'
 };
+exports.loginEmptyData = [
+  {
+    email: ''
+  },
+  {
+    password: ''
+  },
+  {
+    email: '',
+    password: ''
+  }
+];
 exports.randomMissingParams = [
   {},
   {
@@ -71,6 +94,13 @@ exports.randomMissingParams = [
     password: 12345
   }
 ];
+exports.wrongLoginParams = [
+  {},
+  { ...userTestLogin, email: 12345678 },
+  { ...userTestLogin, email: true },
+  { ...userTestLogin, password: 12345678 },
+  { ...userTestLogin, password: true }
+];
 exports.wrongPasswords = [
   { ...userTestInfo1, password: '12345678' },
   { ...userTestInfo1, password: 'abc123' },
@@ -78,6 +108,10 @@ exports.wrongPasswords = [
   { ...userTestInfo1, password: '' },
   { ...userTestInfo1, password: 12345678 }
 ];
+exports.wrongUserLogin = {
+  email: 'tests@wolox.co',
+  password: 'abc12345'
+};
 exports.wrongWoloxEmail = [
   { ...userTestInfo2, email: 'test@domain.com' },
   { ...userTestInfo2, email: 'test@domain.co' },
@@ -87,3 +121,37 @@ exports.wrongWoloxEmail = [
   { ...userTestInfo2, email: 'test@wolox.a' },
   { ...userTestInfo2, email: 'test@wolox.ww' }
 ];
+
+// wrong messages data
+exports.conflictErrorResponse = {
+  message: validationMessages.EMAIL_ALREADY_ERROR,
+  internal_code: errors.CONFLICT_ERROR
+};
+exports.emailInvalidResponse = {
+  message: {
+    value: {
+      email: this.externalEmail.email
+    },
+    msg: authMessages.AUTH_ERROR,
+    param: 'email',
+    location: 'body'
+  },
+  internal_code: errors.SCHEMA_ERROR
+};
+exports.emailNotFoundResponse = {
+  message: `User with email ${this.wrongUserLogin.email} not found`,
+  internal_code: errors.NOT_FOUND_ERROR
+};
+exports.loginEmptyDataResponse = {
+  message: {
+    value: '',
+    msg: validationMessages.NOT_EMPTY_ERROR,
+    param: 'email',
+    location: 'body'
+  },
+  internal_code: errors.SCHEMA_ERROR
+};
+exports.noAuthResponse = {
+  message: authMessages.AUTH_ERROR,
+  internal_code: errors.AUTH_ERROR
+};

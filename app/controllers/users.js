@@ -1,7 +1,9 @@
 const usersServices = require('../services/users');
 const { userSerializer } = require('../serializers/users');
+
 const {
   authMessages: { LOGGED },
+  statusCode: { CREATED_CODE, OK_CODE },
   statusMessages: { CREATED }
 } = require('../constants');
 
@@ -9,7 +11,7 @@ exports.createUser = (req, res, next) =>
   usersServices
     .createUser(req.body)
     .then(userInfo =>
-      res.status(201).send({
+      res.status(CREATED_CODE).send({
         user: userSerializer(userInfo),
         message: CREATED
       })
@@ -19,9 +21,9 @@ exports.createUser = (req, res, next) =>
 exports.signIn = async ({ body: { email, password } }, res, next) => {
   await usersServices
     .signIn(email, password)
-    .then(tokenInfo =>
-      res.status(200).send({
-        tokenInfo,
+    .then(token =>
+      res.status(OK_CODE).send({
+        token,
         message: LOGGED
       })
     )

@@ -101,10 +101,8 @@ module.exports = {
                 $ref: '#/components/schemas/SignIn'
               },
               example: {
-                tokenInfo: {
-                  token:
-                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMDAwQHdvbG94LmNvIiwiaWF0IjoxNjI2OTYwMzAzfQ.cbX3jUeLkfKbwA65Ez2029xLY98dn8pvu54PiQO4J-8'
-                },
+                token:
+                  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMDAwQHdvbG94LmNvIiwiaWF0IjoxNjI2OTYwMzAzfQ.cbX3jUeLkfKbwA65Ez2029xLY98dn8pvu54PiQO4J-8',
                 message: LOGGED
               }
             }

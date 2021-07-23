@@ -53,12 +53,16 @@
     },
     "collectCoverageFrom": [
       "**/*.js",
-      "!**/console.js",
-      "!**/node_modules/**",
       "!**/build/**",
-      "!**/migrations/**",
       "!**/config/**",
-      "!**/scripts/**"
+      "!**/console.js",
+      "!**/coverage/**",
+      "!**/documentation/**",
+      "!**/.eslintrc.js**",
+      "!**/migrations/**",
+      "!**/node_modules/**",
+      "!**/scripts/**",
+      "!**/test/**"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/test/setup.js"
