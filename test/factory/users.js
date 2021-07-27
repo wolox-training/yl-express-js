@@ -1,12 +1,9 @@
 const { factory } = require('factory-girl');
 
+const { createHash } = require('../../app/helpers/bcrypt');
 const { factoryByModel } = require('./factory_by_models');
-const { user } = require('../fixtures/users');
+const { mockUser } = require('../fixtures/users');
 
-const modelName = 'User';
+factoryByModel('User', { ...mockUser, password: () => createHash(mockUser.password) });
 
-factoryByModel(modelName, false);
-
-module.exports = {
-  create: () => factory.create(modelName, user)
-};
+exports.createUser = () => factory.create('User');

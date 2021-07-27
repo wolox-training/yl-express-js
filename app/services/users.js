@@ -4,7 +4,7 @@ const { comparePassword, createHash } = require('../helpers/bcrypt');
 const { generateToken } = require('../helpers/jwt');
 const { User } = require('../models');
 const {
-  authMessages: { AUTH_ERROR, LOGGED },
+  authMessages: { LOGGED, WRONG_LOGIN },
   statusMessages: { CREATED, NOT_CREATED },
   validationMessages: { EMAIL_ALREADY_ERROR }
 } = require('../constants');
@@ -28,11 +28,11 @@ exports.createUser = async ({ firstName, lastName, email, password }) => {
 
 exports.signIn = async (email, password) => {
   const findUserEmail = await User.findOne({ where: { email } });
-  if (!findUserEmail) throw errors.notFoundError(`User with email ${email} not found`);
+  if (!findUserEmail) throw errors.authError(WRONG_LOGIN);
 
   const { password: hashedPassword } = findUserEmail;
   const isValidPassword = await comparePassword(password, hashedPassword);
-  if (!isValidPassword) throw errors.authError(AUTH_ERROR);
+  if (!isValidPassword) throw errors.authError(WRONG_LOGIN);
 
   logger.info(`User "${email}" is ${LOGGED}`);
   const token = generateToken({ email });

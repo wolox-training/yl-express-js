@@ -18,14 +18,8 @@ exports.createUser = (req, res, next) =>
     )
     .catch(next);
 
-exports.signIn = async ({ body: { email, password } }, res, next) => {
-  await usersServices
+exports.signIn = ({ body: { email, password } }, res, next) =>
+  usersServices
     .signIn(email, password)
-    .then(token =>
-      res.status(OK_CODE).send({
-        token,
-        message: LOGGED
-      })
-    )
+    .then(token => res.status(OK_CODE).send({ token, message: LOGGED }))
     .catch(next);
-};
