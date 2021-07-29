@@ -11,7 +11,7 @@ const woloxEmailRegex = `^[a-zA-Z0-9_.+-]+@${woloxEmail}`;
 exports.authMessages = {
   AUTH_ERROR: 'user no authenticated',
   EXPIRED_TOKEN_ERROR: 'user has an expired token',
-  INVALID_TOKEN_ERROR: 'user has a valid token',
+  INVALID_TOKEN_ERROR: 'user has a invalid token',
   LOGGED: 'authenticated successfully',
   WRONG_LOGIN: 'email and/or password incorrect'
 };

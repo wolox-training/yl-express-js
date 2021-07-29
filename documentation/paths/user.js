@@ -6,6 +6,60 @@ const {
 
 module.exports = {
   '/users': {
+    get: {
+      tags: ['Users'],
+      description: 'List of users',
+      operationId: 'getUsers',
+      security: [{ BearerAuth: [] }],
+      parameters: [
+        {
+          $ref: '#/components/schemas/limit'
+        },
+        {
+          $ref: '#/components/schemas/offset'
+        }
+      ],
+      responses: {
+        200: {
+          description: 'Get a list of users',
+          content: {
+            'application/json': {
+              example: {
+                users: [
+                  {
+                    first_name: 'yovanny',
+                    last_name: 'lopez',
+                    email: 'yovanny.lopez@wolox.co',
+                    created_at: '2021-07-26T18:31:17.102Z',
+                    updated_at: '2021-07-26T18:31:17.102Z'
+                  }
+                ],
+                pagination: {
+                  limit: 1,
+                  offset: 1,
+                  total_records: 12
+                },
+                message: 'get users successfully'
+              }
+            }
+          }
+        },
+        401: {
+          description: 'Not authorized',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error'
+              },
+              example: {
+                message: 'invalid and/or expired token',
+                internal_code: 'auth_error'
+              }
+            }
+          }
+        }
+      }
+    },
     post: {
       tags: ['Users'],
       description: 'Create a new user',
