@@ -1,31 +1,26 @@
 const {
   common: {
+    pagination: { limit, offset },
     regex: { woloxEmail }
   }
 } = require('../../config');
 
 const woloxEmailRegex = `^[a-zA-Z0-9_.+-]+@${woloxEmail}`;
 
+// messages
 exports.authMessages = {
   AUTH_ERROR: 'user no authenticated',
+  EXPIRED_TOKEN_ERROR: 'user has an expired token',
+  INVALID_TOKEN_ERROR: 'user has a valid token',
   LOGGED: 'authenticated successfully',
   WRONG_LOGIN: 'email and/or password incorrect'
 };
-
-exports.statusCode = {
-  OK_CODE: 200,
-  CREATED_CODE: 201,
-  NOT_AUTH_CODE: 401,
-  NOT_FOUND_CODE: 404,
-  CONFLICT_CODE: 409,
-  UNPROCESSABLE_ENTITY_CODE: 422
-};
-
 exports.statusMessages = {
   CREATED: 'successfully created',
+  GET_USERS_ERROR: 'cannot get users',
+  GET_USERS_OK: 'get users successfully',
   NOT_CREATED: 'cannot be created'
 };
-
 exports.validationMessages = {
   EMAIL_ALREADY_ERROR: 'email already exists',
   INVALID_EMAIL_FORMAT: 'invalid email format',
@@ -37,6 +32,21 @@ exports.validationMessages = {
   REQUIRED_ERROR: 'is required'
 };
 
+// statusCode
+exports.statusCode = {
+  OK_CODE: 200,
+  CREATED_CODE: 201,
+  NOT_AUTH_CODE: 401,
+  NOT_FOUND_CODE: 404,
+  CONFLICT_CODE: 409,
+  UNPROCESSABLE_ENTITY_CODE: 422
+};
+
+// values
+exports.pagination = {
+  LIMIT_PAGINATION: limit,
+  OFFSET_PAGINATION: offset
+};
 exports.validationRegex = {
   PASSWORD: /^(?=.*[0-9])(?=.*[a-zA-Z_.+\-@$!%*#?&])([a-zA-Z0-9_.+\-@$!%*#?&]){8,}$/,
   WOLOX_EMAIL: new RegExp(woloxEmailRegex)

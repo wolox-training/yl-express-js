@@ -1,10 +1,10 @@
 const usersServices = require('../services/users');
-const { userSerializer } = require('../serializers/users');
+const { getUsersSerializer, userSerializer } = require('../serializers/users');
 
 const {
   authMessages: { LOGGED },
   statusCode: { CREATED_CODE, OK_CODE },
-  statusMessages: { CREATED }
+  statusMessages: { CREATED, GET_USERS_OK }
 } = require('../constants');
 
 exports.createUser = (req, res, next) =>
@@ -22,4 +22,20 @@ exports.signIn = ({ body: { email, password } }, res, next) =>
   usersServices
     .signIn(email, password)
     .then(token => res.status(OK_CODE).send({ token, message: LOGGED }))
+    .catch(next);
+
+exports.getUsers = ({ query }, res, next) =>
+  usersServices
+    .getUsers(query)
+    .then(({ count, limit, offset, users }) =>
+      res.status(OK_CODE).send({
+        users: users.map(user => getUsersSerializer(user)),
+        pagination: {
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          total_records: count
+        },
+        message: GET_USERS_OK
+      })
+    )
     .catch(next);

@@ -2,10 +2,12 @@ const errors = require('../errors');
 const logger = require('../logger');
 const { comparePassword, createHash } = require('../helpers/bcrypt');
 const { generateToken } = require('../helpers/jwt');
+const { pagination } = require('../helpers/pagination');
 const { User } = require('../models');
 const {
   authMessages: { LOGGED, WRONG_LOGIN },
-  statusMessages: { CREATED, NOT_CREATED },
+  pagination: { LIMIT_PAGINATION, OFFSET_PAGINATION },
+  statusMessages: { CREATED, GET_USERS_ERROR, NOT_CREATED },
   validationMessages: { EMAIL_ALREADY_ERROR }
 } = require('../constants');
 
@@ -38,4 +40,15 @@ exports.signIn = async (email, password) => {
   const token = generateToken({ email });
 
   return token;
+};
+
+exports.getUsers = async ({ limit = LIMIT_PAGINATION, offset = OFFSET_PAGINATION }) => {
+  try {
+    const { count, rows } = await pagination(User, limit, offset);
+    const users = rows.map(user => user);
+    return { count, limit, offset, users };
+  } catch (error) {
+    logger.error(`users: ${GET_USERS_ERROR}`);
+    throw errors.databaseError(GET_USERS_ERROR);
+  }
 };

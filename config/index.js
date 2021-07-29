@@ -38,7 +38,8 @@ const config = {
     },
     session: {
       header_name: 'authorization',
-      secret: process.env.NODE_API_SESSION_SECRET
+      secret: process.env.NODE_API_SESSION_SECRET,
+      expiredTimeToken: process.env.EXPIRED_TIME_TOKEN
     },
     headers: {
       apiDate: process.env.API_DATE || 'X-API-Date',
@@ -53,6 +54,10 @@ const config = {
     },
     regex: {
       woloxEmail: process.env.WOLOX_EMAIL_REGEX
+    },
+    pagination: {
+      limit: parseInt(process.env.LIMIT_PAGINATION) || 25,
+      offset: parseInt(process.env.OFFSET_PAGINATION) || 1
     }
   }
 };

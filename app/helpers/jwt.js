@@ -2,8 +2,12 @@ const jwt = require('jsonwebtoken');
 
 const {
   common: {
-    session: { secret }
+    session: { expiredTimeToken, secret }
   }
 } = require('../../config');
 
-exports.generateToken = payload => jwt.sign(payload, secret);
+const options = { expiresIn: expiredTimeToken };
+
+exports.generateToken = payload => jwt.sign(payload, secret, options);
+
+exports.validateToken = token => jwt.verify(token, secret, options);
