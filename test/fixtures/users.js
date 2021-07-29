@@ -34,6 +34,11 @@ exports.userCreatedResponse = {
 };
 
 // Wrong data
+exports.invalidToken = {
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+  expiredToken:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJTYW50aWFnbyIsImlhdCI6MTYyMjA4OTM1NCwiZXhwIjoxNjIyMTAzNzU0fQ.81ZsUW9u8q1LC-HVSV4pti3ETT9kGxCi3EHBXEDAcB0'
+};
 exports.randomMissingParams = [
   {},
   {
@@ -94,4 +99,12 @@ exports.wrongWoloxEmail = [
 exports.conflictErrorResponse = {
   message: validationMessages.EMAIL_ALREADY_ERROR,
   internal_code: errors.CONFLICT_ERROR
+};
+exports.expiredTokenResponse = {
+  message: authMessages.EXPIRED_TOKEN_ERROR,
+  internal_code: errors.AUTH_ERROR
+};
+exports.invalidTokenResponse = {
+  message: authMessages.INVALID_TOKEN_ERROR,
+  internal_code: errors.AUTH_ERROR
 };
