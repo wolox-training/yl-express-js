@@ -116,6 +116,9 @@ const generateByDatatypes = (model, key, attribute, predeterminatedValue = false
   if (predeterminatedValue && key === predeterminatedValue.attribute) {
     return predeterminatedValue.value;
   }
+  if (predeterminatedValue && typeof predeterminatedValue === 'object' && predeterminatedValue[key]) {
+    return predeterminatedValue[key];
+  }
   if (model.rawAttributes[key].defaultValue !== undefined) {
     return model.rawAttributes[key].defaultValue;
   }

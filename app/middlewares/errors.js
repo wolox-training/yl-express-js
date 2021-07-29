@@ -5,6 +5,7 @@ const DEFAULT_STATUS_CODE = 500;
 
 const statusCodes = {
   [errors.BAD_REQUEST_ERROR]: 400,
+  [errors.AUTH_ERROR]: 401,
   [errors.NOT_FOUND_ERROR]: 404,
   [errors.CONFLICT_ERROR]: 409,
   [errors.SCHEMA_ERROR]: 422,

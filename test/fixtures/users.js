@@ -1,89 +1,97 @@
+const errors = require('../../app/errors');
+const { authMessages, statusMessages, validationMessages } = require('../../app/constants/');
+
 // Mocking data
-const userTestInfo1 = {
-  id: 1,
-  firstName: 'brendan',
-  lastName: 'eich',
-  email: 'test@wolox.co'
+exports.mockUser = {
+  firstName: 'yovanny',
+  lastName: 'lopez',
+  email: 'yovanny.lopez@wolox.co',
+  password: 'p4ssw0rd'
 };
-const userTestInfo2 = {
-  id: 1,
-  firstName: 'brendan',
-  lastName: 'eich',
-  password: 'abc12345'
-};
+const numberValue = 123;
 
 // Correct data
-exports.user = {
-  id: 1,
-  firstName: 'brendan',
-  lastName: 'eich',
-  email: 'test@wolox.co',
-  password: 'abc12345'
-};
 exports.correctWoloxEmail = [
-  { ...userTestInfo2, email: 'test@wolox.ar' },
-  { ...userTestInfo2, email: 'test@wolox.cl' },
-  { ...userTestInfo2, email: 'test@wolox.co' },
-  { ...userTestInfo2, email: 'test@wolox.mx' },
-  { ...userTestInfo2, email: 'test@wolox.com.ar' },
-  { ...userTestInfo2, email: 'test@wolox.com.mx' }
+  { ...exports.mockUser, email: 'test@wolox.ar' },
+  { ...exports.mockUser, email: 'test@wolox.cl' },
+  { ...exports.mockUser, email: 'test@wolox.co' },
+  { ...exports.mockUser, email: 'test@wolox.mx' },
+  { ...exports.mockUser, email: 'test@wolox.com.ar' },
+  { ...exports.mockUser, email: 'test@wolox.com.mx' }
 ];
+
+// correct messages data
+exports.userAuthResponse = {
+  message: authMessages.LOGGED
+};
 exports.userCreatedResponse = {
   user: {
-    first_name: 'brendan',
-    last_name: 'eich',
-    email: 'test@wolox.co'
+    first_name: 'yovanny',
+    last_name: 'lopez',
+    email: 'yovanny.lopez@wolox.co'
   },
-  message: 'successfully created'
+  message: statusMessages.CREATED
 };
 
 // Wrong data
-exports.conflictErrorResponse = {
-  internal_code: 'conflict_error',
-  message: 'email already exists'
-};
 exports.randomMissingParams = [
   {},
   {
-    firstName: 'brendan',
-    email: 'test@wolox.co',
-    password: 'abc12345'
+    firstName: exports.mockUser.firstName,
+    email: exports.mockUser.email,
+    password: exports.mockUser.password
   },
   {
-    lastName: 'eich',
-    email: 'test@wolox.co',
-    password: 'abc12345'
+    lastName: exports.mockUser.lastName,
+    email: exports.mockUser.email,
+    password: exports.mockUser.password
   },
   {
-    firstName: 'brendan',
-    lastName: 'eich',
-    password: 'abc12345'
+    firstName: exports.mockUser.firstName,
+    lastName: exports.mockUser.lastName,
+    password: exports.mockUser.password
   },
   {
-    firstName: 'brendan',
-    lastName: 'eich',
-    email: 'test@wolox.co'
+    firstName: exports.mockUser.firstName,
+    lastName: exports.mockUser.lastName,
+    email: exports.mockUser.email
   },
   {
-    firstName: 12345,
-    lastName: 12345,
-    email: 12345,
-    password: 12345
+    firstName: numberValue,
+    lastName: numberValue,
+    email: numberValue,
+    password: numberValue
   }
 ];
+exports.signInEmpty = {
+  email: '',
+  password: ''
+};
+exports.wrongEmail = 'yovanny@wolox.co';
+exports.wrongPassword = 'abc1234a';
+exports.wrongCredentials = {
+  email: exports.wrongEmail,
+  password: exports.wrongPassword
+};
 exports.wrongPasswords = [
-  { ...userTestInfo1, password: '12345678' },
-  { ...userTestInfo1, password: 'abc123' },
-  { ...userTestInfo1, password: '°$%&?~^`' },
-  { ...userTestInfo1, password: '' },
-  { ...userTestInfo1, password: 12345678 }
+  { ...exports.mockUser.email, password: '12345678' },
+  { ...exports.mockUser.email, password: 'abc123' },
+  { ...exports.mockUser.email, password: '°$%&?~^`' },
+  { ...exports.mockUser.email, password: '' },
+  { ...exports.mockUser.email, password: 12345678 }
 ];
 exports.wrongWoloxEmail = [
-  { ...userTestInfo2, email: 'test@domain.com' },
-  { ...userTestInfo2, email: 'test@domain.co' },
-  { ...userTestInfo2, email: 'test@wolox.com' },
-  { ...userTestInfo2, email: 'test@wolox.com.cl' },
-  { ...userTestInfo2, email: 'test@wolox.com.co' },
-  { ...userTestInfo2, email: 'test@wolox.a' },
-  { ...userTestInfo2, email: 'test@wolox.ww' }
+  { ...exports.mockUser, email: 'test@domain.com' },
+  { ...exports.mockUser, email: 'test@domain.co' },
+  { ...exports.mockUser, email: 'test@wolox.com' },
+  { ...exports.mockUser, email: 'test@wolox.com.cl' },
+  { ...exports.mockUser, email: 'test@wolox.com.co' },
+  { ...exports.mockUser, email: 'test@wolox.a' },
+  { ...exports.mockUser, email: 'test@wolox.ww' }
 ];
+
+// wrong messages data
+exports.conflictErrorResponse = {
+  message: validationMessages.EMAIL_ALREADY_ERROR,
+  internal_code: errors.CONFLICT_ERROR
+};

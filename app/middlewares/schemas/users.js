@@ -13,41 +13,45 @@ const {
   validationRegex: { PASSWORD, WOLOX_EMAIL }
 } = require('../../constants');
 
+exports.signInSchema = [
+  check('email')
+    .exists()
+    .withMessage(REQUIRED_ERROR)
+    .notEmpty()
+    .withMessage(NOT_EMPTY_ERROR)
+    .isString()
+    .withMessage(IS_STRING_ERROR)
+    .isEmail()
+    .withMessage(INVALID_EMAIL_FORMAT)
+    .matches(WOLOX_EMAIL)
+    .withMessage(INVALIDATE_EMAIL_MATCH),
+  check('password')
+    .exists()
+    .withMessage(REQUIRED_ERROR)
+    .notEmpty()
+    .withMessage(NOT_EMPTY_ERROR)
+    .isString()
+    .withMessage(IS_STRING_ERROR)
+    .isLength({ min: 8 })
+    .withMessage(PASSWORD_MIN_LENGTH_ERROR)
+    .matches(PASSWORD)
+    .withMessage(INVALIDATE_PASSWORD_MATCH)
+];
+
 exports.createUserSchema = [
   check('firstName')
     .exists()
-    .withMessage(`firstName: ${REQUIRED_ERROR}`)
+    .withMessage(REQUIRED_ERROR)
     .notEmpty()
-    .withMessage(`firstName: ${NOT_EMPTY_ERROR}`)
+    .withMessage(NOT_EMPTY_ERROR)
     .isString()
-    .withMessage(`firstName: ${IS_STRING_ERROR}`),
+    .withMessage(IS_STRING_ERROR),
   check('lastName')
     .exists()
-    .withMessage(`lastName: ${REQUIRED_ERROR}`)
+    .withMessage(REQUIRED_ERROR)
     .notEmpty()
-    .withMessage(`lastName: ${NOT_EMPTY_ERROR}`)
+    .withMessage(NOT_EMPTY_ERROR)
     .isString()
-    .withMessage(`lastName: ${IS_STRING_ERROR}`),
-  check('email')
-    .exists()
-    .withMessage(`email: ${REQUIRED_ERROR}`)
-    .notEmpty()
-    .withMessage(`email: ${NOT_EMPTY_ERROR}`)
-    .isString()
-    .withMessage(`email: ${IS_STRING_ERROR}`)
-    .isEmail()
-    .withMessage(`email: ${INVALID_EMAIL_FORMAT}`)
-    .matches(WOLOX_EMAIL)
-    .withMessage(`email: ${INVALIDATE_EMAIL_MATCH}`),
-  check('password')
-    .exists()
-    .withMessage(`password: ${REQUIRED_ERROR}`)
-    .notEmpty()
-    .withMessage(`password: ${NOT_EMPTY_ERROR}`)
-    .isString()
-    .withMessage(`password: ${IS_STRING_ERROR}`)
-    .isLength({ min: 8 })
-    .withMessage(`password: ${PASSWORD_MIN_LENGTH_ERROR}`)
-    .matches(PASSWORD)
-    .withMessage(`password: ${INVALIDATE_PASSWORD_MATCH}`)
+    .withMessage(IS_STRING_ERROR),
+  ...exports.signInSchema
 ];
