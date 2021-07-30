@@ -19,31 +19,23 @@ const SIGN_IN_PATH = '/users/sessions';
 const USERS_PATH = '/users';
 
 describe(`Users endpoint GET ${USERS_PATH}`, () => {
-  let jwtToken = null;
+  let access_token = null;
   let response = {};
   beforeAll(async () => {
-    try {
-      await createUser();
-      const { email, password } = mockUser;
-      response = await request(app)
-        .post(SIGN_IN_PATH)
-        .set(DEFAULT_HEADER)
-        .send({ email, password });
-      jwtToken = response.body.token;
-    } catch (err) {
-      throw err;
-    }
+    await createUser();
+    const { email, password } = mockUser;
+    response = await request(app)
+      .post(SIGN_IN_PATH)
+      .set(DEFAULT_HEADER)
+      .send({ email, password });
+    access_token = response.body.token;
   });
 
   describe('satisfactory cases - suite', () => {
     beforeAll(async () => {
-      try {
-        response = await request(app)
-          .get(USERS_PATH)
-          .set('Authorization', `Bearer ${jwtToken}`);
-      } catch (err) {
-        throw err;
-      }
+      response = await request(app)
+        .get(USERS_PATH)
+        .set('Authorization', `Bearer ${access_token}`);
     });
     test(`Should be return a status code ${OK_CODE}`, () => expect(response.statusCode).toBe(OK_CODE));
     test('Should be return a list of users', () => expect(response.body.users).toBeDefined());
@@ -60,7 +52,7 @@ describe(`Users endpoint GET ${USERS_PATH}`, () => {
       test('Should be return the first page with a limit of one', () =>
         request(app)
           .get(`${USERS_PATH}?limit=1`)
-          .set('Authorization', `Bearer ${jwtToken}`)
+          .set('Authorization', `Bearer ${access_token}`)
           .then(res => {
             expect(res.body.pagination.limit).toBe(1);
             expect(res.body.pagination.offset).toBe(1);
@@ -69,7 +61,7 @@ describe(`Users endpoint GET ${USERS_PATH}`, () => {
       test('Should be return the second page with a limit of one', () =>
         request(app)
           .get(`${USERS_PATH}?limit=1&offset=2`)
-          .set('Authorization', `Bearer ${jwtToken}`)
+          .set('Authorization', `Bearer ${access_token}`)
           .then(res => {
             expect(res.body.pagination.limit).toBe(1);
             expect(res.body.pagination.offset).toBe(2);
@@ -107,7 +99,7 @@ describe(`Users endpoint GET ${USERS_PATH}`, () => {
     test('Should be return a query params message error', () =>
       request(app)
         .get(`${USERS_PATH}?limit=string&offset=string`)
-        .set('Authorization', `Bearer ${jwtToken}`)
-        .then(res => expect(res.body.message.msg).toEqual(queryParamsErrorResponse)));
+        .set('Authorization', `Bearer ${access_token}`)
+        .catch(res => expect(res.body.message.msg).toEqual(queryParamsErrorResponse)));
   });
 });

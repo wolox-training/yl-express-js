@@ -1,8 +1,9 @@
 const {
-  authMessages: { AUTH_ERROR, LOGGED },
-  statusMessages: { CREATED },
+  authMessages: { AUTH_ERROR, INVALID_TOKEN_ERROR, LOGGED },
+  statusMessages: { CREATED, GET_USERS_OK },
   validationMessages: { EMAIL_ALREADY_ERROR }
 } = require('../../app/constants/');
+const errors = require('../../app/errors');
 
 module.exports = {
   '/users': {
@@ -39,7 +40,7 @@ module.exports = {
                   offset: 1,
                   total_records: 12
                 },
-                message: 'get users successfully'
+                message: GET_USERS_OK
               }
             }
           }
@@ -52,8 +53,8 @@ module.exports = {
                 $ref: '#/components/schemas/Error'
               },
               example: {
-                message: 'invalid and/or expired token',
-                internal_code: 'auth_error'
+                message: INVALID_TOKEN_ERROR,
+                internal_code: errors.AUTH_ERROR
               }
             }
           }
@@ -85,9 +86,9 @@ module.exports = {
               },
               example: {
                 user: {
-                  first_name: 'john',
-                  last_name: 'doe',
-                  email: 'john.doe@wolox.co'
+                  first_name: 'yovanny',
+                  last_name: 'lopez',
+                  email: 'yovanny.lopez@wolox.co'
                 },
                 message: CREATED
               }
@@ -103,7 +104,7 @@ module.exports = {
               },
               example: {
                 message: EMAIL_ALREADY_ERROR,
-                internal_code: 'conflict_error'
+                internal_code: errors.CONFLICT_ERROR
               }
             }
           }
@@ -122,7 +123,7 @@ module.exports = {
                   param: 'field',
                   location: 'body'
                 },
-                internal_code: 'schema_error'
+                internal_code: errors.SCHEMA_ERROR
               }
             }
           }
@@ -171,7 +172,7 @@ module.exports = {
               },
               example: {
                 message: AUTH_ERROR,
-                internal_code: 'auth_error'
+                internal_code: errors.AUTH_ERROR
               }
             }
           }
@@ -190,7 +191,7 @@ module.exports = {
                   param: 'email',
                   location: 'body'
                 },
-                internal_code: 'schema_error'
+                internal_code: errors.SCHEMA_ERROR
               }
             }
           }
