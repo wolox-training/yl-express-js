@@ -17,7 +17,6 @@ exports.authMessages = {
 };
 exports.statusMessages = {
   CREATED: 'successfully created',
-  GET_USERS_ERROR: 'cannot get users',
   GET_USERS_OK: 'get users successfully',
   NOT_CREATED: 'cannot be created'
 };
@@ -29,6 +28,7 @@ exports.validationMessages = {
   IS_STRING_ERROR: 'must be a string',
   NOT_EMPTY_ERROR: 'must be a non-empty',
   PASSWORD_MIN_LENGTH_ERROR: 'must be a minimum length of 8 characters',
+  QUERY_PARAMS_ERROR: 'should be an integer value',
   REQUIRED_ERROR: 'is required'
 };
 

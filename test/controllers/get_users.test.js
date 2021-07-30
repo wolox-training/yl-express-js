@@ -6,7 +6,13 @@ const {
   statusCode: { NOT_AUTH_CODE, OK_CODE },
   statusMessages: { GET_USERS_OK }
 } = require('../../app/constants/');
-const { expiredTokenResponse, invalidToken, invalidTokenResponse, mockUser } = require('../fixtures/users');
+const {
+  expiredTokenResponse,
+  invalidToken,
+  invalidTokenResponse,
+  mockUser,
+  queryParamsErrorResponse
+} = require('../fixtures/users');
 
 const DEFAULT_HEADER = ['Accept', 'application/json'];
 const SIGN_IN_PATH = '/users/sessions';
@@ -75,14 +81,14 @@ describe(`Users endpoint GET ${USERS_PATH}`, () => {
   });
 
   describe('failed cases - suite', () => {
-    test('Should be return an error when no token is sent', () =>
+    test('Should be return an error when no token exist', () =>
       request(app)
         .get(USERS_PATH)
         .catch(res => {
           expect(res.statusCode).toEqual(NOT_AUTH_CODE);
           expect(res.body).toEqual(invalidTokenResponse);
         }));
-    test('Should be return an invalid token error', () =>
+    test('Should be return an error when token is invalid', () =>
       request(app)
         .get(USERS_PATH)
         .set('Authorization', `Bearer ${invalidToken}`)
@@ -90,7 +96,7 @@ describe(`Users endpoint GET ${USERS_PATH}`, () => {
           expect(res.statusCode).toEqual(NOT_AUTH_CODE);
           expect(res.body).toEqual(invalidTokenResponse);
         }));
-    test('Should be return an expired token error', () =>
+    test('Should be return an error when expired token', () =>
       request(app)
         .get(USERS_PATH)
         .set('Authorization', `Bearer ${invalidToken.expiredToken}`)
@@ -98,5 +104,10 @@ describe(`Users endpoint GET ${USERS_PATH}`, () => {
           expect(res.statusCode).toEqual(NOT_AUTH_CODE);
           expect(res.body).toEqual(expiredTokenResponse);
         }));
+    test('Should be return a query params message error', () =>
+      request(app)
+        .get(`${USERS_PATH}?limit=string&offset=string`)
+        .set('Authorization', `Bearer ${jwtToken}`)
+        .then(res => expect(res.body.message.msg).toEqual(queryParamsErrorResponse)));
   });
 });

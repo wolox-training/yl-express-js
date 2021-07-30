@@ -108,3 +108,4 @@ exports.invalidTokenResponse = {
   message: authMessages.INVALID_TOKEN_ERROR,
   internal_code: errors.AUTH_ERROR
 };
+exports.queryParamsErrorResponse = validationMessages.QUERY_PARAMS_ERROR;
