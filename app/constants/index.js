@@ -1,6 +1,6 @@
 const {
   common: {
-    pagination: { limit, offset },
+    pagination: { page, size },
     regex: { woloxEmail }
   }
 } = require('../../config');
@@ -11,7 +11,7 @@ const woloxEmailRegex = `^[a-zA-Z0-9_.+-]+@${woloxEmail}`;
 exports.authMessages = {
   AUTH_ERROR: 'user no authenticated',
   EXPIRED_TOKEN_ERROR: 'user has an expired token',
-  INVALID_TOKEN_ERROR: 'user has a invalid token',
+  INVALID_TOKEN_ERROR: 'user has an invalid token',
   LOGGED: 'authenticated successfully',
   WRONG_LOGIN: 'email and/or password incorrect'
 };
@@ -28,7 +28,7 @@ exports.validationMessages = {
   IS_STRING_ERROR: 'must be a string',
   NOT_EMPTY_ERROR: 'must be a non-empty',
   PASSWORD_MIN_LENGTH_ERROR: 'must be a minimum length of 8 characters',
-  QUERY_PARAMS_ERROR: 'should be an integer value',
+  QUERY_ERROR: 'should be a numeric value greater or equal than 0',
   REQUIRED_ERROR: 'is required'
 };
 
@@ -39,13 +39,13 @@ exports.statusCode = {
   NOT_AUTH_CODE: 401,
   NOT_FOUND_CODE: 404,
   CONFLICT_CODE: 409,
-  UNPROCESSABLE_ENTITY_CODE: 422
+  UN_PROCESSABLE_ENTITY_CODE: 422
 };
 
 // values
 exports.pagination = {
-  LIMIT_PAGINATION: limit,
-  OFFSET_PAGINATION: offset
+  PAGE_PAGINATION: page,
+  SIZE_PAGINATION: size
 };
 exports.validationRegex = {
   PASSWORD: /^(?=.*[0-9])(?=.*[a-zA-Z_.+\-@$!%*#?&])([a-zA-Z0-9_.+\-@$!%*#?&]){8,}$/,

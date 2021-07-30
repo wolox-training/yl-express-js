@@ -8,7 +8,7 @@ const {
     IS_STRING_ERROR,
     NOT_EMPTY_ERROR,
     PASSWORD_MIN_LENGTH_ERROR,
-    QUERY_PARAMS_ERROR,
+    QUERY_ERROR,
     REQUIRED_ERROR
   },
   validationRegex: { PASSWORD, WOLOX_EMAIL }
@@ -57,17 +57,17 @@ exports.createUserSchema = [
   ...exports.signInSchema
 ];
 
-const queryParamsSchema = {
-  in: ['params', 'query'],
-  isInt: { options: { min: 1 } },
+const querySchema = {
+  in: ['query'],
+  isInt: { options: { min: 0 } },
   optional: true,
   toInt: true,
-  errorMessage: QUERY_PARAMS_ERROR
+  errorMessage: QUERY_ERROR
 };
 
 exports.paginationSchema = [
   checkSchema({
-    limit: queryParamsSchema,
-    offset: queryParamsSchema
+    page: querySchema,
+    size: querySchema
   })
 ];

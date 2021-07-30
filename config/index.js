@@ -8,7 +8,7 @@ const configFile = `./${ENVIRONMENT}`;
 const isObject = variable => variable instanceof Object;
 
 /*
- * Deep immutable copy of source object into tarjet object and returns a new object.
+ * Deep immutable copy of source object into target object and returns a new object.
  */
 const deepMerge = (target, source) => {
   if (isObject(target) && isObject(source)) {
@@ -56,8 +56,8 @@ const config = {
       woloxEmail: process.env.WOLOX_EMAIL_REGEX
     },
     pagination: {
-      limit: parseInt(process.env.LIMIT_PAGINATION) || 25,
-      offset: parseInt(process.env.OFFSET_PAGINATION) || 1
+      page: parseInt(process.env.PAGE_PAGINATION) || 0,
+      size: parseInt(process.env.SIZE_PAGINATION) || 25
     }
   }
 };

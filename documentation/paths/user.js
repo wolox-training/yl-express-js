@@ -1,8 +1,9 @@
 const {
-  authMessages: { AUTH_ERROR, LOGGED },
-  statusMessages: { CREATED },
+  authMessages: { AUTH_ERROR, INVALID_TOKEN_ERROR, LOGGED },
+  statusMessages: { CREATED, GET_USERS_OK },
   validationMessages: { EMAIL_ALREADY_ERROR }
 } = require('../../app/constants/');
+const errors = require('../../app/errors');
 
 module.exports = {
   '/users': {
@@ -13,10 +14,10 @@ module.exports = {
       security: [{ BearerAuth: [] }],
       parameters: [
         {
-          $ref: '#/components/schemas/limit'
+          $ref: '#/components/schemas/size'
         },
         {
-          $ref: '#/components/schemas/offset'
+          $ref: '#/components/schemas/page'
         }
       ],
       responses: {
@@ -25,6 +26,7 @@ module.exports = {
           content: {
             'application/json': {
               example: {
+                message: GET_USERS_OK,
                 users: [
                   {
                     first_name: 'yovanny',
@@ -32,14 +34,21 @@ module.exports = {
                     email: 'yovanny.lopez@wolox.co',
                     created_at: '2021-07-26T18:31:17.102Z',
                     updated_at: '2021-07-26T18:31:17.102Z'
+                  },
+                  {
+                    first_name: 'ana',
+                    last_name: 'ramirez',
+                    email: 'ana@wolox.co',
+                    created_at: '2021-08-05T17:15:22.660Z',
+                    updated_at: '2021-08-05T17:15:22.660Z'
                   }
                 ],
-                pagination: {
-                  limit: 1,
-                  offset: 1,
-                  total_records: 12
-                },
-                message: 'get users successfully'
+                size: 2,
+                page: 0,
+                previous_page: null,
+                next_page: 1,
+                total_pages: 2,
+                total_records: 3
               }
             }
           }
@@ -52,8 +61,8 @@ module.exports = {
                 $ref: '#/components/schemas/Error'
               },
               example: {
-                message: 'invalid and/or expired token',
-                internal_code: 'auth_error'
+                message: INVALID_TOKEN_ERROR,
+                internal_code: errors.AUTH_ERROR
               }
             }
           }
@@ -85,9 +94,9 @@ module.exports = {
               },
               example: {
                 user: {
-                  first_name: 'john',
-                  last_name: 'doe',
-                  email: 'john.doe@wolox.co'
+                  first_name: 'yovanny',
+                  last_name: 'lopez',
+                  email: 'yovanny.lopez@wolox.co'
                 },
                 message: CREATED
               }
@@ -103,7 +112,7 @@ module.exports = {
               },
               example: {
                 message: EMAIL_ALREADY_ERROR,
-                internal_code: 'conflict_error'
+                internal_code: errors.CONFLICT_ERROR
               }
             }
           }
@@ -122,7 +131,7 @@ module.exports = {
                   param: 'field',
                   location: 'body'
                 },
-                internal_code: 'schema_error'
+                internal_code: errors.SCHEMA_ERROR
               }
             }
           }
@@ -171,7 +180,7 @@ module.exports = {
               },
               example: {
                 message: AUTH_ERROR,
-                internal_code: 'auth_error'
+                internal_code: errors.AUTH_ERROR
               }
             }
           }
@@ -190,7 +199,7 @@ module.exports = {
                   param: 'email',
                   location: 'body'
                 },
-                internal_code: 'schema_error'
+                internal_code: errors.SCHEMA_ERROR
               }
             }
           }

@@ -2,11 +2,11 @@ const errors = require('../errors');
 const logger = require('../logger');
 const { comparePassword, createHash } = require('../helpers/bcrypt');
 const { generateToken } = require('../helpers/jwt');
-const { pagination } = require('../helpers/pagination');
+const { pagination, paginatedContent } = require('../helpers/pagination');
 const { User } = require('../models');
 const {
   authMessages: { LOGGED, WRONG_LOGIN },
-  pagination: { LIMIT_PAGINATION, OFFSET_PAGINATION },
+  pagination: { PAGE_PAGINATION, SIZE_PAGINATION },
   statusMessages: { CREATED, NOT_CREATED },
   validationMessages: { EMAIL_ALREADY_ERROR }
 } = require('../constants');
@@ -42,8 +42,10 @@ exports.signIn = async (email, password) => {
   return token;
 };
 
-exports.getUsers = async ({ limit = LIMIT_PAGINATION, offset = OFFSET_PAGINATION }) => {
-  const { count, rows } = await pagination(User, limit, offset);
+exports.getUsers = async ({ page = PAGE_PAGINATION, size = SIZE_PAGINATION }) => {
+  const { count, rows } = await pagination(User, page, size);
+  const { nextPage, previousPage, totalPages } = paginatedContent(count, page, size);
   const users = rows.map(user => user);
-  return { count, limit, offset, users };
+  const content = { count, nextPage, previousPage, totalPages };
+  return { content, page, size, users };
 };

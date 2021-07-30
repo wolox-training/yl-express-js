@@ -21,8 +21,8 @@ module.exports = {
     minLength: 8,
     example: 'SecurePassword1234'
   },
-  limit: {
-    name: 'limit',
+  size: {
+    name: 'size',
     in: 'query',
     schema: {
       type: 'integer',
@@ -30,8 +30,8 @@ module.exports = {
     },
     required: false
   },
-  offset: {
-    name: 'offset',
+  page: {
+    name: 'page',
     in: 'query',
     schema: {
       type: 'integer',

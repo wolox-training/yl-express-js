@@ -27,15 +27,16 @@ exports.signIn = ({ body: { email, password } }, res, next) =>
 exports.getUsers = ({ query }, res, next) =>
   usersServices
     .getUsers(query)
-    .then(({ count, limit, offset, users }) =>
+    .then(({ content, page, size, users }) =>
       res.status(OK_CODE).send({
+        message: GET_USERS_OK,
         users: users.map(user => getUsersSerializer(user)),
-        pagination: {
-          limit: parseInt(limit),
-          offset: parseInt(offset),
-          total_records: count
-        },
-        message: GET_USERS_OK
+        size: parseInt(size),
+        page: parseInt(page),
+        previous_page: content.previousPage,
+        next_page: content.nextPage,
+        total_pages: content.totalPages,
+        total_records: content.count
       })
     )
     .catch(next);

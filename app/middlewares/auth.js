@@ -12,7 +12,8 @@ const {
 
 exports.verifyToken = (req, _, next) => {
   try {
-    const authHeader = req.headers[header_name];
+    const headers = req.headers[header_name];
+    const authHeader = headers ? headers : next(authError(AUTH_ERROR));
     const token = authHeader.split(' ')[1];
     const tokenInfo = validateToken(token);
     req.headers.user = tokenInfo;
