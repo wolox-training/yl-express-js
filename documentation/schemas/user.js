@@ -21,6 +21,24 @@ module.exports = {
     minLength: 8,
     example: 'SecurePassword1234'
   },
+  size: {
+    name: 'size',
+    in: 'query',
+    schema: {
+      type: 'integer',
+      default: 25
+    },
+    required: false
+  },
+  page: {
+    name: 'page',
+    in: 'query',
+    schema: {
+      type: 'integer',
+      default: 1
+    },
+    required: false
+  },
   SignIn: {
     type: 'object',
     properties: {

@@ -8,7 +8,7 @@ const configFile = `./${ENVIRONMENT}`;
 const isObject = variable => variable instanceof Object;
 
 /*
- * Deep immutable copy of source object into tarjet object and returns a new object.
+ * Deep immutable copy of source object into target object and returns a new object.
  */
 const deepMerge = (target, source) => {
   if (isObject(target) && isObject(source)) {
@@ -38,7 +38,8 @@ const config = {
     },
     session: {
       header_name: 'authorization',
-      secret: process.env.NODE_API_SESSION_SECRET
+      secret: process.env.NODE_API_SESSION_SECRET,
+      expiredTimeToken: process.env.EXPIRED_TIME_TOKEN
     },
     headers: {
       apiDate: process.env.API_DATE || 'X-API-Date',
@@ -53,6 +54,10 @@ const config = {
     },
     regex: {
       woloxEmail: process.env.WOLOX_EMAIL_REGEX
+    },
+    pagination: {
+      page: parseInt(process.env.PAGE_PAGINATION) || 0,
+      size: parseInt(process.env.SIZE_PAGINATION) || 25
     }
   }
 };

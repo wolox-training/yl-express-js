@@ -1,0 +1,111 @@
+{
+	"info": {
+		"_postman_id": "a5c54b4a-e9ec-4928-b956-5037da3304f6",
+		"name": "wtraining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/users?params",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFuYTFAd29sb3guY28iLCJpYXQiOjE2MjgyNzAzNzMsImV4cCI6MTYyODM1Njc3M30.g_fR1SIuur-CkzX7-IuQcR_fWMWvZvfgkd7NXvs97X8"
+					}
+				],
+				"url": {
+					"raw": "{{service}}/users?size=2&page=0",
+					"host": [
+						"{{service}}"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "size",
+							"value": "2"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/users/sessions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ana1@wolox.co\",\n    \"password\": \"1234567a\"\n}"
+				},
+				"url": {
+					"raw": "{{service}}/users/sessions",
+					"host": [
+						"{{service}}"
+					],
+					"path": [
+						"users",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{service}}/health",
+					"host": [
+						"{{service}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"ana\",\n    \"lastName\": \"ramirez\",\n    \"email\": \"ana1@wolox.co\",\n    \"password\": \"1234567a\"\n}"
+				},
+				"url": {
+					"raw": "{{service}}/users",
+					"host": [
+						"{{service}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

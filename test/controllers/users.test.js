@@ -4,7 +4,7 @@ const app = require('../../app.js');
 const { createUser } = require('../factory/users');
 const { AUTH_ERROR, CONFLICT_ERROR, SCHEMA_ERROR } = require('../../app/errors');
 const {
-  statusCode: { CONFLICT_CODE, CREATED_CODE, NOT_AUTH_CODE, OK_CODE, UNPROCESSABLE_ENTITY_CODE }
+  statusCode: { CONFLICT_CODE, CREATED_CODE, NOT_AUTH_CODE, OK_CODE, UN_PROCESSABLE_ENTITY_CODE }
 } = require('../../app/constants/');
 const {
   conflictErrorResponse,
@@ -67,7 +67,7 @@ describe(`Sign Up endpoint POST ${USERS_PATH} - suite`, () => {
         expect(response.status).toBe(CONFLICT_CODE));
       test(`should be return internal code ${CONFLICT_ERROR}`, () =>
         expect(response.body).toMatchObject({ internal_code: CONFLICT_ERROR }));
-      test('should be return conflict error reponse (when email already)', () =>
+      test('should be return conflict error response (when email already)', () =>
         expect(response.body).toStrictEqual(conflictErrorResponse));
     });
     describe('failed with an email invalid', () => {
@@ -76,7 +76,7 @@ describe(`Sign Up endpoint POST ${USERS_PATH} - suite`, () => {
           .post(USERS_PATH)
           .set(DEFAULT_HEADER)
           .send(randomTestData)
-          .catch(() => expect(response.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
+          .catch(() => expect(response.statusCode).toBe(UN_PROCESSABLE_ENTITY_CODE))
       );
     });
     describe('failed with an incorrect password', () => {
@@ -95,7 +95,7 @@ describe(`Sign Up endpoint POST ${USERS_PATH} - suite`, () => {
           .post(USERS_PATH)
           .set(DEFAULT_HEADER)
           .send(randomTestData)
-          .catch(res => expect(res.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
+          .catch(res => expect(res.statusCode).toBe(UN_PROCESSABLE_ENTITY_CODE))
       );
     });
     describe('failed with empty param(s)', () => {
@@ -109,8 +109,8 @@ describe(`Sign Up endpoint POST ${USERS_PATH} - suite`, () => {
           throw err;
         }
       });
-      test(`should be return status code ${UNPROCESSABLE_ENTITY_CODE}`, () =>
-        expect(response.status).toBe(UNPROCESSABLE_ENTITY_CODE));
+      test(`should be return status code ${UN_PROCESSABLE_ENTITY_CODE}`, () =>
+        expect(response.status).toBe(UN_PROCESSABLE_ENTITY_CODE));
       test(`should be return internal code ${SCHEMA_ERROR}`, () =>
         expect(response.body).toMatchObject({ internal_code: SCHEMA_ERROR }));
       test.each(randomMissingParams)('failed with an or more missing parameter: %p', randomTestData =>
@@ -118,7 +118,7 @@ describe(`Sign Up endpoint POST ${USERS_PATH} - suite`, () => {
           .post(USERS_PATH)
           .set(DEFAULT_HEADER)
           .send(randomTestData)
-          .catch(() => expect(response.statusCode).toBe(UNPROCESSABLE_ENTITY_CODE))
+          .catch(() => expect(response.statusCode).toBe(UN_PROCESSABLE_ENTITY_CODE))
       );
     });
   });
@@ -142,7 +142,7 @@ describe(`Sign In endpoint POST ${SIGN_IN_PATH} - suite`, () => {
       });
       test(`should be return status code ${OK_CODE}`, () => expect(response.status).toBe(OK_CODE));
       test('should be get a token', () => expect(response.body.token).toBeDefined());
-      test('should be return a sign in succesfully message', () =>
+      test('should be return a sign in successfully message', () =>
         expect(response.body.message).toStrictEqual(userAuthResponse.message));
     });
   });
@@ -215,8 +215,8 @@ describe(`Sign In endpoint POST ${SIGN_IN_PATH} - suite`, () => {
           throw err;
         }
       });
-      test(`should be return status code ${UNPROCESSABLE_ENTITY_CODE}`, () =>
-        expect(response.status).toBe(UNPROCESSABLE_ENTITY_CODE));
+      test(`should be return status code ${UN_PROCESSABLE_ENTITY_CODE}`, () =>
+        expect(response.status).toBe(UN_PROCESSABLE_ENTITY_CODE));
       test(`should be return internal code ${SCHEMA_ERROR}`, () =>
         expect(response.body).toMatchObject({ internal_code: SCHEMA_ERROR }));
     });

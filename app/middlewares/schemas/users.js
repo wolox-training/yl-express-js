@@ -1,4 +1,4 @@
-const { check } = require('express-validator');
+const { check, checkSchema } = require('express-validator');
 
 const {
   validationMessages: {
@@ -8,6 +8,7 @@ const {
     IS_STRING_ERROR,
     NOT_EMPTY_ERROR,
     PASSWORD_MIN_LENGTH_ERROR,
+    QUERY_ERROR,
     REQUIRED_ERROR
   },
   validationRegex: { PASSWORD, WOLOX_EMAIL }
@@ -54,4 +55,19 @@ exports.createUserSchema = [
     .isString()
     .withMessage(IS_STRING_ERROR),
   ...exports.signInSchema
+];
+
+const querySchema = {
+  in: ['query'],
+  isInt: { options: { min: 0 } },
+  optional: true,
+  toInt: true,
+  errorMessage: QUERY_ERROR
+};
+
+exports.paginationSchema = [
+  checkSchema({
+    page: querySchema,
+    size: querySchema
+  })
 ];
